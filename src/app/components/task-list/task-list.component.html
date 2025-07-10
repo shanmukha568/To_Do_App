@@ -1,0 +1,15 @@
+<mat-card *ngFor="let task of pagedTasks">
+  <mat-checkbox [checked]="task.completed" (change)="toggleCompletion(task)">
+    {{ task.title }} - <small>{{ task.category }}</small>
+  </mat-checkbox>
+  <p>{{ task.description }}</p>
+  <p *ngIf="task.dueDate">Due: {{ task.dueDate | date }}</p>
+  <button mat-icon-button color="warn" (click)="deleteTask(task.id!)">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-card>
+<mat-paginator [length]="(tasks$ | async)?.length || 0"
+               [pageSize]="pageSize"
+               [pageIndex]="pageIndex"
+               (page)="onPageChange($event)">
+</mat-paginator>
