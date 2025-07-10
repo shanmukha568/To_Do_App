@@ -1,28 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { BehaviorSubject } from 'rxjs';
 import { Task } from '../../models/task.model';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private taskCollection = collection(this.firestore, 'tasks');
-  constructor(private firestore: Firestore) {}
+  private tasks$ = new BehaviorSubject<Task[]>([]);
+
+  constructor(private firestore: Firestore) {
+    collectionData(this.taskCollection, { idField: 'id' }).subscribe(data => {
+      this.tasks$.next(data as Task[]);
+    });
+  }
 
   getTasks() {
-    return collectionData(this.taskCollection, { idField: 'id' }) as Observable<Task[]>;
+    return this.tasks$.asObservable();
   }
 
-  addTask(task: Task) {
-    return addDoc(this.taskCollection, task);
+  async addTask(task: Task) {
+    task.dueDate = task.dueDate ? new Date(task.dueDate).toISOString() : undefined;
+    task.createdAt = Date.now();
+    task.completed = false;
+    await addDoc(this.taskCollection, task);
   }
 
-  deleteTask(id: string) {
-    const taskDoc = doc(this.taskCollection, id);
-    return deleteDoc(taskDoc);
+  async deleteTask(id: string) {
+    await deleteDoc(doc(this.firestore, 'tasks', id));
   }
 
-  updateTask(id: string, data: Partial<Task>) {
-    const taskDoc = doc(this.taskCollection, id);
-    return updateDoc(taskDoc, data);
+  async toggleCompletion(task: Task) {
+    console.log("Testing toggleCompletion for task:", task);
+    
+    await updateDoc(doc(this.firestore, 'tasks', task.id!), { completed: !task.completed });
   }
 }

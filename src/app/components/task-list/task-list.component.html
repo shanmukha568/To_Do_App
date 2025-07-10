@@ -1,15 +1,50 @@
-<mat-card *ngFor="let task of pagedTasks">
-  <mat-checkbox [checked]="task.completed" (change)="toggleCompletion(task)">
-    {{ task.title }} - <small>{{ task.category }}</small>
-  </mat-checkbox>
-  <p>{{ task.description }}</p>
-  <p *ngIf="task.dueDate">Due: {{ task.dueDate | date }}</p>
-  <button mat-icon-button color="warn" (click)="deleteTask(task.id!)">
-    <mat-icon>delete</mat-icon>
-  </button>
-</mat-card>
-<mat-paginator [length]="(tasks$ | async)?.length || 0"
-               [pageSize]="pageSize"
-               [pageIndex]="pageIndex"
-               (page)="onPageChange($event)">
-</mat-paginator>
+<div class="controls">
+    
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <mat-button-toggle-group [(ngModel)]="filter" (change)="setFilter(filter)">
+        <mat-button-toggle value="All">All</mat-button-toggle>
+        <mat-button-toggle value="Completed">Completed</mat-button-toggle>
+        <mat-button-toggle value="Pending">Pending</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Sort By</mat-label>
+        <mat-select (selectionChange)="setSort($event.value)">
+        <mat-option value="createdAt">Created Date</mat-option>
+        <mat-option value="dueDate">Due Date</mat-option>
+        </mat-select>
+    </mat-form-field>
+  </div>
+
+</div>
+
+<mat-list>
+  <mat-list-item *ngFor="let task of filteredTasks" class="task-item">
+
+    <!-- Checkbox -->
+    <mat-checkbox
+      [checked]="task.completed"
+      (change)="toggleComplete(task)"
+      aria-label="Mark task as complete"
+    ></mat-checkbox>
+
+    <!-- Task Content -->
+    <div class="task-details">
+      <h4 class="task-title">{{ task.title }}</h4>
+      <p class="task-desc">{{ task.description }}</p>
+      <small class="task-meta">
+        {{ task.category }} | Due: {{ task.dueDate | date:'shortDate' }}
+      </small>
+    </div>
+
+    <!-- Delete Button -->
+    <button
+      mat-icon-button
+      (click)="deleteTask(task.id!)"
+      aria-label="Delete task"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </mat-list-item>
+</mat-list>

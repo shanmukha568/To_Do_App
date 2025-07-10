@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from 'src/app/core/services/task.service';
 import { Task } from '../../models/task.model';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { selectAllTasks } from 'src/app/store/selectors/task.selectors';
-import { loadTasks, updateTask, deleteTask } from 'src/app/store/actions/task.actions';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-task-list',
@@ -13,34 +9,52 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class TaskListComponent implements OnInit {
 
-  tasks$: Observable<Task[]> = this.store.select(selectAllTasks);
-  pagedTasks: Task[] = [];
-  pageSize = 5;
-  pageIndex = 0;
+  tasks: Task[] = [];
+  filteredTasks: Task[] = [];
+  
+  filter: string = 'All';
+  sortKey: string = 'createdAt';
 
-  constructor(private store: Store) {}
+  constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.store.dispatch(loadTasks());
-    this.tasks$.subscribe(tasks => this.updatePage(tasks));
+    this.taskService.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+      console.log("Tasks fetched:", this.tasks);
+      
+      this.applyFilters();
+    });
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.tasks$.subscribe(tasks => this.updatePage(tasks));
-  }
-
-  updatePage(tasks: Task[]) {
-    this.pagedTasks = tasks.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
-  }
-
-  toggleCompletion(task: Task) {
-    this.store.dispatch(updateTask({ id: task.id!, changes: { completed: !task.completed } }));
+  toggleComplete(task: Task) {
+    this.taskService.toggleCompletion(task);
   }
 
   deleteTask(id: string) {
-    this.store.dispatch(deleteTask({ id }));
+    this.taskService.deleteTask(id);
+  }
+
+  setFilter(filter: string) {
+    this.filter = filter;
+    this.applyFilters();
+  }
+
+  setSort(key: string) {
+    this.sortKey = key;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let temp = [...this.tasks];
+    if (this.filter === 'Completed') temp = temp.filter(t => t.completed);
+    else if (this.filter === 'Pending') temp = temp.filter(t => !t.completed);
+
+    temp.sort((a, b) => {
+      if (this.sortKey === 'dueDate') return (a.dueDate || '').localeCompare(b.dueDate || '');
+      return a.createdAt - b.createdAt;
+    });
+
+    this.filteredTasks = temp;
   }
 
 }

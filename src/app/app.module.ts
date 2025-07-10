@@ -25,11 +25,6 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { taskReducer } from './store/reducers/task.reducer';
-import { TaskEffects } from './store/effects/task.effects';
 
 @NgModule({
   declarations: [
@@ -56,10 +51,6 @@ import { TaskEffects } from './store/effects/task.effects';
     MatToolbarModule,
     MatCardModule,
     MatPaginatorModule,
-
-    StoreModule.forRoot({ task: taskReducer }),
-    EffectsModule.forRoot([TaskEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25 }),
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())

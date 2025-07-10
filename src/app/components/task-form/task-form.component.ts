@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Task } from '../../models/task.model';
-import { addTask } from 'src/app/store/actions/task.actions';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TaskService } from 'src/app/core/services/task.service';
 
 @Component({
   selector: 'app-task-form',
@@ -11,28 +9,23 @@ import { addTask } from 'src/app/store/actions/task.actions';
 })
 export class TaskFormComponent implements OnInit {
 
-  taskForm = this.fb.group({
-    title: ['', Validators.required],
-    description: [''],
-    category: ['Work'],
-    dueDate: ['']
-  });
+  taskForm: FormGroup;
+  categories = ['Work', 'Personal', 'Other'];
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(private fb: FormBuilder, private taskService: TaskService) {
+    this.taskForm = this.fb.group({
+      title: [''],
+      description: [''],
+      category: [''],
+      dueDate: ['']
+    });
+  }
 
   onSubmit() {
-    if (this.taskForm.invalid) return;
-    const formValue = this.taskForm.value;
-    const task: Task = {
-      title: formValue.title!, // Non-null assertion since title is required
-      description: formValue.description ?? '',
-      category: (formValue.category as 'Work' | 'Personal') ?? 'Work',
-      dueDate: formValue.dueDate ?? '',
-      completed: false,
-      createdAt: new Date().toISOString()
-    };
-    this.store.dispatch(addTask({ task }));
-    this.taskForm.reset();
+    if (this.taskForm.valid) {
+      this.taskService.addTask(this.taskForm.value);
+      this.taskForm.reset();
+    }
   }
 
   ngOnInit(): void {

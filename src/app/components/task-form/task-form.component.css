@@ -1,4 +1,5 @@
-.full-width {
-  width: 100%;
-  margin-bottom: 16px;
+.full-width-field {
+  display: block !important; /* override inline-block */
+  width: 100%;               /* optional, for full width */
+  margin-bottom: 16px;       /* spacing between fields */
 }

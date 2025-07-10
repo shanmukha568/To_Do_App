@@ -7,12 +7,12 @@ import { initializeApp } from "firebase/app";
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDn47m_Z2HBNaPOsnuqIBJP1Ej4UTiiJKY",
-    authDomain: "to-do-app-cc74c.firebaseapp.com",
-    projectId: "to-do-app-cc74c",
-    storageBucket: "to-do-app-cc74c.firebasestorage.app",
-    messagingSenderId: "55242326163",
-    appId: "1:55242326163:web:ab4c2825d3113322384d66"
+      apiKey: "AIzaSyCTlczBicfk6Ji3303KiY7v-l2DgC2ibLQ",
+      authDomain: "todolist-e96f1.firebaseapp.com",
+      projectId: "todolist-e96f1",
+      storageBucket: "todolist-e96f1.firebasestorage.app",
+      messagingSenderId: "295341046836",
+      appId: "1:295341046836:web:86b34c6778714d1e731e61"
   }
 };
 
