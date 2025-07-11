@@ -15,10 +15,10 @@ export class TaskService {
     });
   }
 
-  /** Get tasks as observable */
+  // Get the current list of tasks as an Observable
   getTasks = (): Observable<Task[]> => this.tasksSubject.asObservable();
 
-  /** Add a new task to Firestore*/
+  // Add a new task to the Firestore collection
   addTask = (task: Task): Promise<void> => {
     const newTask: Task = {
       ...task,
@@ -29,12 +29,14 @@ export class TaskService {
     return addDoc(this.taskCollection, newTask).then(() => {});
   };
 
-  /** Delete a task by its ID */
+  // Delete a task by its ID
+  // This method removes the task document from the Firestore collection.
   deleteTask = (id: string): Promise<void> => {
     return deleteDoc(doc(this.firestore, 'tasks', id));
   };
 
-  /** Toggle task completion */
+  // Toggle the completion status of a task
+  // This method updates the 'completed' field of the task document in Firestore.
   toggleCompletion = (task: Task): Promise<void> => {
     return updateDoc(doc(this.firestore, 'tasks', task.id!), {
       completed: !task.completed

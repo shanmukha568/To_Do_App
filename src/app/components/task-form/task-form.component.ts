@@ -33,8 +33,7 @@ export class TaskFormComponent implements OnInit {
 
   // Function to handle form submission
   // It checks if the form is valid, adds the task using the TaskService, resets the form, and closes the dialog
-  // If the form is invalid, it will not proceed
-  // This ensures that only valid tasks are added to the task list
+  // If the form is invalid, it will not proceed 
   onSubmit() {
     if (this.taskForm.valid) {
       this.taskService.addTask(this.taskForm.value);
