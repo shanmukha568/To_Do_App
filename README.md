@@ -1,27 +1,73 @@
-# ToDoApp
+# 📝 Smart To-Do List Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.13.
+An intuitive and responsive To-Do List application built with **Angular** and **Firebase Firestore**, featuring task creation, filtering, sorting, real-time updates, and a modern UI using Angular Material.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📌 Features
 
-## Code scaffolding
+- ✅ Add new tasks with title, description, category, and due date
+- 📝 View full task descriptions in a dialog
+- 🕒 Sort tasks by created date or due date
+- 🔍 Filter tasks by status: Pending, Completed, All
+- ✅ Mark tasks as complete/incomplete
+- 🗑️ Delete tasks
+- 📄 Paginate task list
+- 🔄 Real-time sync with Firebase Firestore
+- 📅 Prevent selecting past due dates
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## 🛠️ Tech Stack
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+| Layer       | Technology             |
+|-------------|------------------------|
+| Frontend    | Angular 14+            |
+| UI          | Angular Material       |
+| Backend     | Firebase Firestore     |
+| Language    | TypeScript             |
+| Forms       | Reactive Forms         |
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🚀 Getting Started
 
-## Running end-to-end tests
+### Prerequisites
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Node.js & npm
+- Angular CLI (`npm install -g @angular/cli`)
+- Firebase account (for Firestore setup)
 
-## Further help
+### Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. **Clone the repository**
+
+ ```bash
+  git clone https://github.com/your-username/todo-app.git
+  cd todo-app
+  npm install
+
+### Firebase Setup
+
+    Go to Firebase Console
+
+    Create a project and enable Firestore Database
+
+    In src/environments/environment.ts, add your Firebase config:
+
+    export const environment = {
+    production: false,
+    firebase: {
+        apiKey: 'YOUR_API_KEY',
+        authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+        projectId: 'YOUR_PROJECT_ID',
+        storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+        messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+        appId: 'YOUR_APP_ID'
+    }
+    };
+
+2. **Run the app**
+
+ng serve
+
