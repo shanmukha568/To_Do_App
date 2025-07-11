@@ -46,8 +46,9 @@ An intuitive and responsive To-Do List application built with **Angular** and **
   git clone https://github.com/your-username/todo-app.git
   cd todo-app
   npm install
+  ```
 
-### Firebase Setup
+2. **Firebase Setup**
 
     Go to Firebase Console
 
@@ -55,19 +56,23 @@ An intuitive and responsive To-Do List application built with **Angular** and **
 
     In src/environments/environment.ts, add your Firebase config:
 
-    export const environment = {
-    production: false,
-    firebase: {
-        apiKey: 'YOUR_API_KEY',
-        authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-        projectId: 'YOUR_PROJECT_ID',
-        storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-        messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-        appId: 'YOUR_APP_ID'
-    }
-    };
+    ```bash 
+        export const environment = {
+        production: false,
+        firebase: {
+            apiKey: 'YOUR_API_KEY',
+            authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+            projectId: 'YOUR_PROJECT_ID',
+            storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+            messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+            appId: 'YOUR_APP_ID'
+        }
+        };
+    ```
 
-2. **Run the app**
+3. **Run the app**
 
-ng serve
+```bash
+    ng serve
+```
 
