@@ -1,50 +1,70 @@
-<div class="controls">
-    
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-    <mat-button-toggle-group [(ngModel)]="filter" (change)="setFilter(filter)">
-        <mat-button-toggle value="All">All</mat-button-toggle>
-        <mat-button-toggle value="Completed">Completed</mat-button-toggle>
-        <mat-button-toggle value="Pending">Pending</mat-button-toggle>
-    </mat-button-toggle-group>
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
 
-    <mat-form-field appearance="fill">
-        <mat-label>Sort By</mat-label>
-        <mat-select (selectionChange)="setSort($event.value)">
-        <mat-option value="createdAt">Created Date</mat-option>
-        <mat-option value="dueDate">Due Date</mat-option>
-        </mat-select>
-    </mat-form-field>
-  </div>
+  <!-- Filter -->
+  <mat-button-toggle-group
+    [(ngModel)]="filter"
+    (change)="setFilter(filter)"
+    name="filterGroup"
+    color="primary">
+    <mat-button-toggle value="Pending">Pending</mat-button-toggle>
+    <mat-button-toggle value="Completed">Completed</mat-button-toggle>
+    <mat-button-toggle value="All">All</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <!-- Sort  -->
+  <mat-form-field appearance="fill" style="min-width: 180px;">
+    <mat-label>Sort By</mat-label>
+    <mat-select [(value)]="sortKey" (selectionChange)="setSort(sortKey)">
+      <mat-option value="createdAt">Created Date</mat-option>
+      <mat-option value="dueDate">Due Date</mat-option>
+    </mat-select>
+  </mat-form-field>
 
 </div>
 
-<mat-list>
-  <mat-list-item *ngFor="let task of filteredTasks" class="task-item">
+<!-- TASK LIST -->
+<mat-list *ngIf="paginatedTasks.length > 0">
+  <mat-list-item *ngFor="let task of paginatedTasks">
+    <mat-checkbox [checked]="task.completed" (change)="toggleComplete(task)">
+    </mat-checkbox>
 
-    <!-- Checkbox -->
-    <mat-checkbox
-      [checked]="task.completed"
-      (change)="toggleComplete(task)"
-      aria-label="Mark task as complete"
-    ></mat-checkbox>
-
-    <!-- Task Content -->
     <div class="task-details">
-      <h4 class="task-title">{{ task.title }}</h4>
-      <p class="task-desc">{{ task.description }}</p>
-      <small class="task-meta">
-        {{ task.category }} | Due: {{ task.dueDate | date:'shortDate' }}
-      </small>
+      <h4 (click)="openDescriptionDialog(task)" style="cursor: pointer; color: #3f51b5; margin: 0;">
+        {{ task.title }}
+        <span style="color: gray; font-weight: normal; font-size: 0.9rem;">
+          (Due: {{ task.dueDate | date: 'shortDate' }})
+        </span>
+      </h4>
     </div>
 
-    <!-- Delete Button -->
-    <button
-      mat-icon-button
-      (click)="deleteTask(task.id!)"
-      aria-label="Delete task"
-    >
+    <button mat-icon-button (click)="deleteTask(task.id!)">
       <mat-icon>delete</mat-icon>
     </button>
-
   </mat-list-item>
 </mat-list>
+
+<!-- EMPTY MESSAGE -->
+<div *ngIf="paginatedTasks.length === 0" style="text-align: center; margin-top: 20px; color: gray;">
+  No tasks found.
+</div>
+
+<!-- PAGINATOR -->
+<mat-paginator
+  [length]="filteredTasks.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="onPageChange($event)">
+</mat-paginator>
+
+<!-- TASK DESCRIPTION DIALOG -->
+<ng-template #taskDescriptionDialog>
+  <h2 mat-dialog-title>{{ selectedTask?.title }}</h2>
+  <mat-dialog-content>
+    <p>{{ selectedTask?.description || 'No description available.' }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</ng-template>
+
+

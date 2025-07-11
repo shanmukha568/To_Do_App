@@ -1,5 +1,10 @@
+
 .full-width-field {
-  display: block !important; /* override inline-block */
-  width: 100%;               /* optional, for full width */
-  margin-bottom: 16px;       /* spacing between fields */
+  display: block !important; 
+  width: 100%;               
+  margin-bottom: 16px;       
 }
+
+/* override inline-block */
+/* optional, for full width */
+/* spacing between fields */

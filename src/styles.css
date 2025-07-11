@@ -4,17 +4,27 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .container {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 1rem;
+  max-width: 700px;        /* Restricts the container width */
+  margin: 20px auto;       /* Vertically space it and center horizontally */
+  padding: 1rem;           /* Inner spacing around the content */
 }
+
+/*
+  Styles for the task details section inside each task item.
+  Ensures it takes up remaining space and adds horizontal spacing.
+*/
 .task-details {
-  flex: 1;
-  padding: 0 10px;
+  flex: 1;                 /* Take available horizontal space */
+  padding: 0 10px;         /* Horizontal padding for spacing */
 }
+
+/*
+  Container for control elements like filter and sort options.
+  Uses block layout and adds bottom margin for spacing.
+*/
 .controls {
-  display: block;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+  display: block;          /* Block layout - may need flex for alignment */
+  justify-content: space-between; /* Won't have any effect unless display is flex */
+  align-items: center;     /* Won't have any effect unless display is flex */
+  margin-bottom: 1rem;     /* Space below controls */
 }
