@@ -75,7 +75,7 @@ export class TaskListComponent implements OnInit {
       if (this.sortKey === 'dueDate') {
         return (a.dueDate || '').localeCompare(b.dueDate || '');
       }
-      return a.createdAt - b.createdAt;
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     });
 
     this.filteredTasks = temp;

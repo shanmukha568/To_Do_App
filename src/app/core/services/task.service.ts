@@ -23,7 +23,7 @@ export class TaskService {
     const newTask: Task = {
       ...task,
       dueDate: task.dueDate ? new Date(task.dueDate).toISOString() : undefined,
-      createdAt: Date.now(),
+      createdAt: new Date().toISOString().slice(0, 10),
       completed: false
     };
     return addDoc(this.taskCollection, newTask).then(() => {});
